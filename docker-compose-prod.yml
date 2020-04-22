@@ -2,7 +2,7 @@
 version: '3.0'
 services:
   web:
-    image: jaczajka/docker_practice:latest
+    image: jaczajka/io-lab-docker-ci-public:latest
     ports:
       - "5000:5000"
     depends_on:
@@ -14,5 +14,4 @@ services:
     image: redis:6.0-rc3
     # TODO: persistence for redis. You need to persist /data directory.    
     volumes:
-      - ./code:/code:z
-      - /home/jakub/Documents/redis:/data
+      - /home/jakub/Documents/redis:/data:z
