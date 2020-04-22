@@ -1,7 +1,8 @@
 # Git repo metadata
 TAG = $(shell git describe --tags --always)
 # TODO: if your docher hub account name is different then this on github ovrwrite this this variable with docer hub accout name
-PREFIX = $(shell git config --get remote.origin.url | tr ':.' '/'  | rev | cut -d '/' -f 3 | rev)
+#PREFIX = $(shell git config --get remote.origin.url | tr ':.' '/'  | rev | cut -d '/' -f 3 | rev)
+PREFIX = "jaczajka"
 # TODO: if your repository name is different then this github repository name on ovrwrite this variable with docer hub repo name
 REPO_NAME = $(shell git config --get remote.origin.url | tr ':.' '/'  | rev | cut -d '/' -f 2 | rev)
 
@@ -39,12 +40,27 @@ image:
 		--build-arg SCHEMA_BUILD_DATE="$(SCHEMA_BUILD_DATE)" \
 		--build-arg SCHEMA_BUILD_VERSION="$(SCHEMA_BUILD_VERSION)" \
 		--build-arg SCHEMA_CMD="$(SCHEMA_CMD)" \
-	
-  # TODO: last part of this command that tags just built image with a specyfic tag
-	
+                -t $(SCHEMA_NAME):latest \
+                .
+
+# TODO: last part of this command that tags just built image with a specyfic tag
+	docker build \
+		--build-arg SCHEMA_NAME="$(SCHEMA_NAME)" \
+		--build-arg SCHEMA_DESCRIPTION="$(SCHEMA_DESCRIPTION)" \
+		--build-arg SCHEMA_URL="$(SCHEMA_URL)" \
+		--build-arg SCEHMA_VENDOR="$(SCEHMA_VENDOR)" \
+		--build-arg SCHEMA_VSC_URL="$(SCHEMA_VSC_URL)" \
+		--build-arg SCHEMA_VCS_REF="$(SCHEMA_VCS_REF)" \
+		--build-arg SCHEMA_BUILD_DATE="$(SCHEMA_BUILD_DATE)" \
+		--build-arg SCHEMA_BUILD_VERSION="$(SCHEMA_BUILD_VERSION)" \
+		--build-arg SCHEMA_CMD="$(SCHEMA_CMD)" \
+                -t $(SCHEMA_NAME):$(TAG) \
+                .
+
 push: image
-	# TODO: two commands, first pushes the latest image, second pushes the image tagged with specyfic tag
-	
+# TODO: two commands, first pushes the latest image, second pushes the image tagged with specyfic tag
+	docker push $(SCHEMA_NAME):latest
+	docker push $(SCHEMA_NAME):$(TAG)
 clean:
 
 .PHONY: clean image push all
