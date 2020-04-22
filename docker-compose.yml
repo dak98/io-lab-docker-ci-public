@@ -1,4 +1,3 @@
-
 version: '3.0'
 services:
   # TODO: build context, ports and redis dependency
@@ -20,5 +19,3 @@ services:
     # TODO: missing persistence for redis. You need to persist /data directory.
     volumes:
       - /home/jakub/Documents/redis:/data
-    
-
